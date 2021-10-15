@@ -250,7 +250,7 @@ int* shift_function(int current_state, char input, NFA* nfa){
  */
 int is_accepted(char *input_str, NFA *nfa) {
     int *current_stack, *state_stack, *prev_stack;
-    int i, j, flag;    
+    int i, j;    
     prev_stack = (int*)malloc(sizeof(int)*nfa->state_number);
     memset(prev_stack, 0, sizeof(int)*nfa->state_number);
     prev_stack[nfa->start_state] = 1;
@@ -259,16 +259,15 @@ int is_accepted(char *input_str, NFA *nfa) {
     for(i=0; i<nfa->state_number; i++)
         printf("\t%s",nfa->states[i]);
     printf("\n\t");
+
     print_stack(prev_stack, nfa->state_number);
     for(i=0; i<strlen(input_str); i++) {        
         current_stack = (int*)malloc(sizeof(int)*nfa->state_number);
         memset(current_stack, 0, sizeof(int)*nfa->state_number);
-        flag = 0;
         for(j=0; j<nfa->state_number; j++) {
             if(prev_stack[j]) {
                 state_stack = shift_function(j, input_str[i], nfa);
                 merge_stake(current_stack, state_stack, nfa->state_number);
-                flag = 1;
             }
         }
         free(prev_stack);
@@ -276,13 +275,10 @@ int is_accepted(char *input_str, NFA *nfa) {
         printf("%c\t", input_str[i]);
         print_stack(prev_stack, nfa->state_number);
     }
-    if(flag) {
-        flag = 0;
-        for(j=0; j<nfa->accept_state_number; j++) {
-            i = nfa->accept_states[j];
-            if(prev_stack[i]) {
-                return 1;
-            }
+    for(j=0; j<nfa->accept_state_number; j++) {
+        i = nfa->accept_states[j];
+        if(prev_stack[i]) {
+            return 1;
         }
     }
     return 0;
