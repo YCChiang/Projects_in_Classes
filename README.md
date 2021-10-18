@@ -1,4 +1,4 @@
-# Projects in Class
+# Projects in Classes
 My homework for all classes in CUP.
 
 ## Classes
