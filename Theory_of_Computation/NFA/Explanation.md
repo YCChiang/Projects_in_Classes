@@ -4,6 +4,10 @@
 
 Understand the working principle of NFA, design a suitable data structure or class to represent the NFA shown in the figure above, and require the design to be as versatile as possible.
 
+The NFA:
+
+![](D:\Code\Projects_in_Class\Theory_of_Computation\NFA\NFA_Example.png)
+
 ## Main idea
 
 ![main](Main_Algorithm.png)
