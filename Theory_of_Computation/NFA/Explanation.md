@@ -19,13 +19,19 @@ The NFA:
 ## Usage
 
 Compile files:
+```
     gcc -o nfa nfa.c
+```
 
+Usage:
+
+```
 Usage: nfa.exe [options]
 General Options:
     -h, --help      Show help
     -s, string      The string to be recognized.
     -f, -file       The NFA configuration file.
+```
 
 ## Format Example for NFA Configuration file
 
