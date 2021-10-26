@@ -8,10 +8,6 @@ accept_state_number:
 1
 accept_state(s):
 q4,
-alphabet_number:
-2
-alphabets:
-1,0,
 shift_function:
 current_state,next_state,input_alphabet
 q1,q1,0,

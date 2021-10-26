@@ -24,6 +24,27 @@ void print_NFA(NFA* nfa){
     }
 }
 
+/*释放NFA空间*/
+void free_NFA(NFA* nfa) {
+    int i;
+    NODE *prev, *next;
+    for(i=0; i<nfa->state_number; i++)
+        free(nfa->states[i]);
+    free(nfa->accept_states);
+    for(i=0; i<nfa->state_number; i++) {
+        prev = nfa->shift_array[i];
+        next = prev->next;
+        while (next) {
+            free(prev);
+            prev = next;
+            next = prev->next;
+        }
+        free(prev);
+    }
+    free(nfa->shift_array);
+    free(nfa);
+}
+
 /**
  * @brief		获得输入状态的在状态集里的编号
  * @param[in]	state   字符串      输入状态
@@ -90,6 +111,13 @@ int read_info(FILE *fd, NFA* nfa) {
             else 
                 result = 0;
         }
+        else if(strcmp(buff, "states:\n") == 0) {
+            if(fgets(buff, BUFFSIZE, fd) != NULL) {
+                nfa->states = get_elements(buff, nfa->state_number);
+            }
+            else 
+                result = 0;
+        }  
         else if (strcmp(buff, "accept_state_number:\n") == 0) {
             if(fgets(buff, BUFFSIZE, fd) != NULL) {
                 len = strlen(buff);
@@ -100,14 +128,7 @@ int read_info(FILE *fd, NFA* nfa) {
                 printf("accept_state_number has no vlaue!\n");
                 result = 0;
             }                
-        }
-        else if(strcmp(buff, "states:\n") == 0) {
-            if(fgets(buff, BUFFSIZE, fd) != NULL) {
-                nfa->states = get_elements(buff, nfa->state_number);
-            }
-            else 
-                result = 0;
-        }        
+        }      
         else if (strcmp(buff, "start_state:\n") == 0) {
             if(fgets(buff, BUFFSIZE, fd) != NULL) {
                 len = strlen(buff);
@@ -313,8 +334,7 @@ int main(int argc, char* argv[]){
             printf("%s is accpted by the NFA!", input_str);
         else
             printf("%s is not accpted by the NFA!", input_str);
-
-        free(nfa);
+        free_NFA(nfa);
     }
     else
         printf("%s: Cannot read the file or wrong data format in the file\n", input_file);
