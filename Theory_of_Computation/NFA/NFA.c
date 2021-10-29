@@ -211,6 +211,8 @@ NFA* init_NFA(char* input_file) {
         }
         fclose(fd);
     }
+    else
+        printf("Cannot open the %s file!", input_file);
     return nfa;
 }
 
@@ -322,6 +324,7 @@ int main(int argc, char* argv[]){
                 input_file = optarg;
                 break;
             case '?':
+                printf("%s", help_msg);
                 abort();
             default:
                 abort();
