@@ -31,13 +31,15 @@ typedef struct pda {
 static struct option long_options[] =
 {  
     {"help", optional_argument, NULL, 'h'},
+    {"file", optional_argument, NULL, 'f'},
     {"string",  optional_argument, NULL,'s'}
 };
 
-char *optstr = "h:s:";
+char *optstr = "h:s:f:";
 
 char *help_msg = "This program uses PDA to recognize string.\n"\
-    "Usage:\n\tpda.exe [options]\n\n"\
+    "Usage:\n\pda.exe [options]\n\n"\
     "General Options:\n"\
     "\t-h, --help\t\tShow help\n"\
-    "\t-s, string\t\tThe string to be recognized.\n";
+    "\t-s, string\t\tThe string to be recognized.\n"\
+    "\t-f, -file\t\tThe PDA configuration file.\n\n";

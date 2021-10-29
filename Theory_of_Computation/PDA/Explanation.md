@@ -11,13 +11,15 @@
 
 $\Sigma={a,b,c} L={w|w\in{a,b,c}*,\#_b(w)=\#_c(w)}$, $\#_z(w)$ is the number of times the character z appears in w.
 
+![](/PDA_Example.png)
+
 ## Main idea
 
-![](D:\Code\Projects_in_Class\Theory_of_Computation\PDA\main_idea.png)
+![](/main_idea.png)
 
 ## Shift Function for PDA
 
-![](D:\Code\Projects_in_Class\Theory_of_Computation\PDA\shift_function.png)
+![](/shift_function.png)
 
 ## Usage
 
@@ -29,10 +31,11 @@ gcc -o pda PDA.c
 Usage:
 
 ```
-Usage: nfa.exe [options]
+Usage: pad.exe [options]
 General Options:
     -h, --help      Show help
     -s, string      The string to be recognized.
+    -f, -file       The PDA configuration file.
 ```
 
 ## Format Example for PDA Configuration file

@@ -23,6 +23,34 @@ void print_PDA(PDA* pda){
     }
 }
 
+/*释放PDA空间*/
+void free_PDA(PDA* pda) {
+    int i;
+    NODE *prev, *next;
+    for(i=0; i<pda->state_number; i++) {
+        if(pda->states[i])
+            free(pda->states[i]);
+    }
+
+    if(pda->accept_states)
+        free(pda->accept_states);
+    for(i=0; i<pda->state_number; i++) {
+        prev = pda->shift_array[i];
+        if(prev) {
+            next = prev->next;
+            while (next) {
+                free(prev);
+                prev = next;
+                next = prev->next;
+            }
+            free(prev);
+        }        
+    }
+    if(pda->shift_array)
+        free(pda->shift_array);
+    free(pda);
+}
+
 /**
  * @brief		获得输入状态的在状态集里的编号
  * @param[in]	state   字符串      输入状态
@@ -190,11 +218,13 @@ PDA* init_PDA(char* input_file) {
     {
         pda = (PDA*)malloc(sizeof(PDA));
         if(!read_info(fd, pda)) {
-            free(pda);
+            free_PDA(pda);
             pda = NULL;
         }
         fclose(fd);
     }
+    else
+        printf("Cannot open the %s file!", input_file);
     return pda;
 }
 
@@ -292,11 +322,14 @@ int main(int argc, char **argv) {
             case 'h':
                 printf("%s", help_msg);
                 abort();
-                break;
             case 's':
                 input_str = optarg;
                 break;
+            case 'f':
+                input_file = optarg;
+                break;
             case '?':
+                printf("%s", help_msg);
                 abort();
             default:
                 abort();
@@ -307,10 +340,10 @@ int main(int argc, char **argv) {
     if(pda) {
         // print_PDA(pda);
         if(is_accepted(input_str, pda))
-            printf("%s is accpted by the NFA!\n", input_str);
+            printf("%s is accpted by the PDA!\n", input_str);
         else
-            printf("%s is not accpted by the NFA!\n", input_str);
-        free(pda);
+            printf("%s is not accpted by the PDA!\n", input_str);
+        free_PDA(pda);
     }
     else
         printf("%s: Cannot read the file or wrong data format in the file\n", input_file);
