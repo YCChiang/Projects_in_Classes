@@ -6,7 +6,7 @@ Understand the working principle of NFA, design a suitable data structure or cla
 
 The NFA:
 
-![](D:\Code\Projects_in_Class\Theory_of_Computation\NFA\NFA_Example.png)
+![NFA_Example](\NFA_Example.png)
 
 ## Main idea
 
